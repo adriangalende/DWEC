@@ -18,21 +18,25 @@
 var q = {};
 
 /**
- *
+ * q.extend(Objeto) -> copia las propiedades de p en el objeto q
+ * 1. copia propiedades de p que son propietarias  excepto aquellas que tienen el mismo nombre en q
+ * 2. copia el valor de los atributos
  * @param objeto
  * @returns {q}
  */
 q.extend = function (objeto) {
     var propiedades = Object.getOwnPropertyNames(objeto)
     for (propiedad in propiedades) {
-        Object.defineProperty(this, propiedades[propiedad], Object.getOwnPropertyDescriptor(p, propiedades[propiedad]));
+        if (!this.hasOwnProperty(propiedades[propiedad])) {
+            Object.defineProperty(this, propiedades[propiedad], Object.getOwnPropertyDescriptor(p, propiedades[propiedad]));
+        }
     }
     return this;
 }
 
 //Definimos la propiedad enumerable de la nueva función extend de q como false
 // Para que no pueda salir en un bucle for (property in q) { ...
-Object.defineProperty(q,"extend", { enumerable: false })
+Object.defineProperty(q, "extend", {enumerable: false})
 
 var p = Object.defineProperties({}, {
     x: {value: 1, writable: true, enumerable: true, configurable: true},
